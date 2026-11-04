@@ -1,17 +1,20 @@
 <script lang="ts">
-  import { countBy, inTicket, problemOf, PROBLEMS, type Problem } from '#lib/kb/problems';
+  import { causeOf } from '#lib/kb/causes';
+  import notes from '#lib/data/desk-notes.json';
+  import { tenantOf } from '#lib/kb/locales';
+  import { countBy, inTicket, oneDayInParser, PROBLEMS, type Problem } from '#lib/kb/problems';
 
   let { ticket, issues }: { ticket: number; issues: Record<Problem, { name: string; href: string }> } = $props();
 
   const n = $derived(countBy(ticket));
   const rows = $derived(
     PROBLEMS.map((p) => {
-      const rs = inTicket(ticket).filter((r) => problemOf(r) === p);
+      const rs = inTicket(ticket).filter((r) => (p === 'one-day' ? notes.oneDayMove.includes(r.id) : causeOf(r, tenantOf(r)) === p));
       const days = rs.map((r) => r.receivedAt.slice(0, 10)).sort();
       return { p, count: rs.length, tenants: new Set(rs.map((r) => r.tenant)).size, first: days[0], last: days[days.length - 1], example: rs[0]?.id };
     }),
   );
-  const total = $derived(n.parser + n.hint + n['one-day'] + n.unplaced);
+  const overlap = $derived(oneDayInParser(ticket));
 </script>
 
 <table>
@@ -29,7 +32,7 @@
     {/each}
   </tbody>
   <tfoot>
-    <tr><td>total</td><td><strong>{total}</strong></td><td colspan="4">{n.unplaced ? `${n.unplaced} unplaced` : 'every report placed'}</td></tr>
+    <tr><td>unique reports</td><td><strong>{n.unique}</strong></td><td colspan="4">the {overlap} one-day moves are also counted under parser, where the desk files them</td></tr>
   </tfoot>
 </table>
 

@@ -1,7 +1,8 @@
 // What #4471 actually holds, read from the reports themselves. Same rules as the desk's causes.ts,
 // plus one thing causes.ts never looks at: what the report says happened to the date.
 import reports from '#lib/data/reports-4471.json';
-import { causeOf, uniqueById, type Report } from '#lib/kb/causes';
+import notes from '#lib/data/desk-notes.json';
+import { causeOf, groupByCause, readAs, uniqueById, type Report } from '#lib/kb/causes';
 import { tenantOf } from '#lib/kb/locales';
 
 export type Problem = 'parser' | 'hint' | 'one-day';
@@ -35,10 +36,25 @@ export function inTicket(ticket: number): Report[] {
   return all.filter((r) => r.mergedInto === ticket);
 }
 
-export function countBy(ticket: number): Record<Problem | 'unplaced', number> {
-  const n = { parser: 0, hint: 0, 'one-day': 0, unplaced: 0 };
-  for (const r of inTicket(ticket)) n[problemOf(r) ?? 'unplaced']++;
-  return n;
+// Counted the desk's way, from its own view of the export: causes.ts groups each report by tenant
+// (one-day moves stay filed under `parser`), and the one-day moves are the desk's readAs footnote
+// over desk-notes.json. So the three counts overlap; `unique` is the number of reports.
+export function countBy(ticket: number): Record<Problem | 'unique' | 'unplaced', number> {
+  const groups = groupByCause(inTicket(ticket), tenantOf);
+  const size = (c: string) => groups.find((g) => g.cause === c)?.reports.length ?? 0;
+  return {
+    parser: size('parser'),
+    hint: size('hint'),
+    'one-day': groups.reduce((n, g) => n + readAs(g, notes.oneDayMove), 0),
+    unique: inTicket(ticket).length,
+    unplaced: size('unplaced'),
+  };
+}
+
+// Reports that are both a one-day move and filed under `parser` by the desk.
+export function oneDayInParser(ticket: number): number {
+  const g = groupByCause(inTicket(ticket), tenantOf).find((x) => x.cause === 'parser');
+  return g ? readAs(g, notes.oneDayMove) : 0;
 }
 
 const WEEK = 7 * 86_400_000;
@@ -55,7 +71,7 @@ export function facts(ticket: number, from = '2026-03-30') {
     reports: rs.length,
     duplicateRows: (reports as Report[]).length - all.length,
     // one-day moves the desk's table counts under `parser`
-    hiddenInParser: rs.filter((r) => problemOf(r) === 'one-day' && causeOf(r, tenantOf(r)) === 'parser').length,
+    hiddenInParser: oneDayInParser(ticket),
     // reports whose intake tag disagrees with the cause the desk's own logic gives them
     intakeWrong: rs.filter((r) => {
       const c = causeOf(r, tenantOf(r));

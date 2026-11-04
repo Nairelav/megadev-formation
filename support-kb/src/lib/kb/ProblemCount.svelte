@@ -13,7 +13,7 @@
   const value = $derived.by(() => {
     if (fact) return facts(ticket)[fact];
     const n = countBy(ticket);
-    if (total) return n.parser + n.hint + n['one-day'] + n.unplaced;
+    if (total) return n.unique;
     return problem ? n[problem] : '';
   });
 </script>
