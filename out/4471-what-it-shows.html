@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<!--e2jw2j--><!----><title>#4471 · what it shows: three problems, not one · support kb</title>
+		<style>:root{--bg: #fbfaf7;--fg: #1d1d1b;--muted: #6b6a66;--line: #e3e0d8;--accent: #2f6f5e;--warn: #b4501f;--warn-bg: #fbeee6;--note-bg: #eef5f2;--mono: ui-monospace, "Cascadia Code", Menlo, monospace}@media(prefers-color-scheme:dark){:root{--bg: #171716;--fg: #ecebe6;--muted: #9c9a93;--line: #34332f;--accent: #6fbfa6;--warn: #f0905d;--warn-bg: #3a2418;--note-bg: #1d2c27}}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 system-ui,sans-serif}.kb table{border-collapse:collapse;width:100%;margin:1rem 0;font-size:.92rem}.kb th,.kb td{border-bottom:1px solid var(--line);padding:.35rem .5rem;text-align:left}.kb code{font-family:var(--mono);font-size:.88em}.kb a{color:var(--accent)}.kb.svelte-e2jw2j{max-width:760px;margin:0 auto;padding:2rem 16px 4rem}.crumb.svelte-e2jw2j{font:.8rem var(--mono);text-decoration:none;color:var(--muted)}h1.svelte-e2jw2j{margin:.25rem 0 .5rem;line-height:1.2}.meta.svelte-e2jw2j{display:flex;flex-wrap:wrap;gap:.5rem 1rem;color:var(--muted);font-size:.85rem;margin:0}.status.svelte-e2jw2j{border:1px solid var(--line);border-radius:99px;padding:0 .6rem}.stale.svelte-e2jw2j{color:var(--warn);font-weight:600}.banner.svelte-e2jw2j{background:var(--warn-bg);color:var(--warn);padding:.6rem 1rem;border-radius:6px}footer.svelte-e2jw2j{margin-top:3rem;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line);padding-top:1rem}
+</style>
+		<style>aside.svelte-17bri61{border-left:4px solid var(--accent);padding:.5rem 1rem;margin:1rem 0;background:var(--note-bg)}aside.warn.svelte-17bri61{border-color:var(--warn);background:var(--warn-bg)}
+</style>
+		<style>tfoot.svelte-1op6c6 td:where(.svelte-1op6c6){border-top:2px solid var(--line)}.stamp.svelte-1280m42{margin:2rem 0 0;font:.85rem var(--mono);color:var(--muted)}.stamp.svelte-1280m42 b:where(.svelte-1280m42){color:var(--accent);letter-spacing:.04em}.missing.svelte-1280m42{color:var(--warn)}
+</style>
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents"><!--[--><!--[0--><!--[--><!--[--><div class="kb svelte-e2jw2j"><header><a class="crumb svelte-e2jw2j" href="/kb">support desk · kb</a> <h1 class="svelte-e2jw2j">#4471 · what it shows: three problems, not one</h1> <p class="meta svelte-e2jw2j"><span>owner <b>Nairelav</b></span> <span class="status open svelte-e2jw2j">open</span> <span class="svelte-e2jw2j">reviewed 2026-11-04 · 0 days ago</span></p></header> <!--[-1--><!--]--> <main><p>Ticket <a href="/kb/incidents/4471">#4471</a> holds <strong>412</strong><!----> reports. They are
+not one bug. Read report by report, they are three problems, and each needs its own fix.</p> <aside class="warn svelte-17bri61"><!---->#4471 is three problems, not one. The queued parser fix covers only the first.<!----></aside><!----> <h2>The three problems</h2> <table><thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>seen</th><th>e.g.</th><th>issue</th></tr></thead><tbody><!--[--><tr><td>Shared parser reads dates month first</td><td><strong>374</strong></td><td>11</td><td>2026-04-01 → 2026-10-04</td><td><code>R-41200</code></td><td><a href="https://github.com/Nairelav/megadev-formation/issues/1">Nairelav/megadev-formation/issues/1</a></td></tr><tr><td>booking-v3 form hint says MM/DD/YYYY</td><td><strong>33</strong></td><td>3</td><td>2026-04-17 → 2026-09-22</td><td><code>R-41230</code></td><td><a href="https://github.com/Nairelav/megadev-formation/issues/2">Nairelav/megadev-formation/issues/2</a></td></tr><tr><td>Dates move by one day</td><td><strong>5</strong></td><td>5</td><td>2026-04-02 → 2026-10-04</td><td><code>R-41202</code></td><td><a href="https://github.com/Nairelav/megadev-formation/issues/3">Nairelav/megadev-formation/issues/3</a></td></tr><!--]--></tbody><tfoot class="svelte-1op6c6"><tr><td class="svelte-1op6c6">total</td><td class="svelte-1op6c6"><strong>412</strong></td><td colspan="4" class="svelte-1op6c6">every report placed</td></tr></tfoot></table><!----> <ol><li><strong>The shared parser reads dates month first:</strong> <strong>374</strong><!----> reports.
+Our tenants write the day first, so 7 April comes out as 4 July. Day and month swap. <a href="https://github.com/Nairelav/megadev-formation/issues/1" rel="nofollow">Issue #1</a>.</li> <li><strong>The booking-v3 form hint says MM/DD/YYYY:</strong> <strong>33</strong><!----> reports.
+People at booking-v3 tenants type the month first because the hint tells them to, and the form
+reads it the tenant’s way. The swap looks the same, but the fix is the form hint, not the parser. <a href="https://github.com/Nairelav/megadev-formation/issues/2" rel="nofollow">Issue #2</a>.</li> <li><strong>Dates move by one day:</strong> <strong>5</strong><!----> reports.
+Nothing swaps. The date lands one day early or late. One report has the same meeting on Tuesday
+in Lisbon and Monday in Toronto. This looks like a time zone bug, and the parser fix will not touch it. <a href="https://github.com/Nairelav/megadev-formation/issues/3" rel="nofollow">Issue #3</a>.</li></ol> <p>The ticket export has <strong>427</strong><!----> rows. <strong>15</strong><!----> of them repeat a report, so they are counted once.</p> <h2>What the #4471 page gets wrong</h2> <ul><li>Its cause table counts the <strong>5</strong><!----> one-day moves as
+parser reports and only mentions them in a footnote.</li> <li>It marks the hint row “not this ticket — no ticket of its own”, so that bug has no ticket at all.</li> <li>Its “tagged as” column shows intake’s guess, made from the reporter’s browser. For <strong>38</strong><!----> reports that guess disagrees with the cause the desk's own logic gives.</li> <li>Its timeline shows a spike that is not a surge. Nothing was merged for <strong>13</strong><!----> weeks, then <strong>184</strong><!----> reports were merged in one go on <strong>2026-07-02</strong><!---->. Reports came in at a steady rate the whole time.</li></ul> <h2>How the problems were told apart</h2> <p>Every count on this page is computed from <code>reports-4471.json</code> by <code>#lib/kb/problems.ts</code>, which reuses
+the desk’s own <code>causes.ts</code> and <code>locales.ts</code>. A report goes to “one-day” when its text shows the date
+moving by one day. Otherwise, a report sent through the form of a booking-v3 tenant goes to “hint”
+and the rest go to “parser”.</p> <!--[0--><p class="stamp svelte-1280m42">desk ref <b class="svelte-1280m42">DR-6VJ2-WBD1</b></p><!--]--><!----><!----></main> <footer class="svelte-e2jw2j">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!--]--><!----><!--]--><!--]--> <!--[-1--><!--]--><!--]-->
+			
+			
+		</div>
+  </body>
+</html>

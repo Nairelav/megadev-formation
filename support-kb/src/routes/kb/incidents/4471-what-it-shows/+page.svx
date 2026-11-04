@@ -1,0 +1,67 @@
+---
+layout: runbook
+title: '#4471 · what it shows: three problems, not one'
+owner: Nairelav
+status: open
+reviewed: 2026-11-04
+signature: Nairelav
+---
+
+<script>
+  import ProblemTable from '#lib/kb/ProblemTable.svelte';
+  import ProblemCount from '#lib/kb/ProblemCount.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = {
+    parser: { name: 'Shared parser reads dates month first', href: 'https://github.com/Nairelav/megadev-formation/issues/1' },
+    hint: { name: 'booking-v3 form hint says MM/DD/YYYY', href: 'https://github.com/Nairelav/megadev-formation/issues/2' },
+    'one-day': { name: 'Dates move by one day', href: 'https://github.com/Nairelav/megadev-formation/issues/3' },
+  };
+</script>
+
+Ticket [#4471](/kb/incidents/4471) holds <ProblemCount ticket={4471} total /> reports. They are
+not one bug. Read report by report, they are three problems, and each needs its own fix.
+
+<Callout kind="warn">
+#4471 is three problems, not one. The queued parser fix covers only the first.
+</Callout>
+
+## The three problems
+
+<ProblemTable ticket={4471} {issues} />
+
+1. **The shared parser reads dates month first:** <ProblemCount ticket={4471} problem="parser" /> reports.
+   Our tenants write the day first, so 7 April comes out as 4 July. Day and month swap.
+   [Issue #1](https://github.com/Nairelav/megadev-formation/issues/1).
+2. **The booking-v3 form hint says MM/DD/YYYY:** <ProblemCount ticket={4471} problem="hint" /> reports.
+   People at booking-v3 tenants type the month first because the hint tells them to, and the form
+   reads it the tenant's way. The swap looks the same, but the fix is the form hint, not the parser.
+   [Issue #2](https://github.com/Nairelav/megadev-formation/issues/2).
+3. **Dates move by one day:** <ProblemCount ticket={4471} problem="one-day" /> reports.
+   Nothing swaps. The date lands one day early or late. One report has the same meeting on Tuesday
+   in Lisbon and Monday in Toronto. This looks like a time zone bug, and the parser fix will not touch it.
+   [Issue #3](https://github.com/Nairelav/megadev-formation/issues/3).
+
+The ticket export has <ProblemCount ticket={4471} fact="rows" /> rows. <ProblemCount ticket={4471} fact="duplicateRows" />
+of them repeat a report, so they are counted once.
+
+## What the #4471 page gets wrong
+
+- Its cause table counts the <ProblemCount ticket={4471} fact="hiddenInParser" /> one-day moves as
+  parser reports and only mentions them in a footnote.
+- It marks the hint row "not this ticket — no ticket of its own", so that bug has no ticket at all.
+- Its "tagged as" column shows intake's guess, made from the reporter's browser. For
+  <ProblemCount ticket={4471} fact="intakeWrong" /> reports that guess disagrees with the cause the desk's own logic gives.
+- Its timeline shows a spike that is not a surge. Nothing was merged for
+  <ProblemCount ticket={4471} fact="weeksBeforeFirstMerge" /> weeks, then <ProblemCount ticket={4471} fact="bulkCount" />
+  reports were merged in one go on <ProblemCount ticket={4471} fact="bulkDay" />. Reports came in at a steady rate the whole time.
+
+## How the problems were told apart
+
+Every count on this page is computed from `reports-4471.json` by `#lib/kb/problems.ts`, which reuses
+the desk's own `causes.ts` and `locales.ts`. A report goes to "one-day" when its text shows the date
+moving by one day. Otherwise, a report sent through the form of a booking-v3 tenant goes to "hint"
+and the rest go to "parser".
+
+<RenderStamp {signature} />
