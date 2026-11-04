@@ -4,7 +4,7 @@ title: '#4471 · what it shows: three problems, not one'
 owner: Nairelav
 status: open
 reviewed: 2026-11-04
-signature: Nairelav
+signature: 'v1.eyJzdWIiOiI4NzgxIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM4MDc0MjYsImV4cCI6MTc5Mzg5MzgyNn0.HtBJCqNJDj8aI_iqbbqMzALiv7Ru2JmRm1RhTom4xQA'
 ---
 
 <script>
